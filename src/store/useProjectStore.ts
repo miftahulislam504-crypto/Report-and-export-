@@ -1,0 +1,107 @@
+import { create } from 'zustand'
+import type { Project, ProjectStats } from '@/lib/types'
+import {
+  getCollection,
+  getDocument,
+  createDocument,
+  updateDocument,
+  deleteDocument,
+  Collections,
+  where,
+  orderBy,
+} from '@/firebase/firestore'
+
+interface ProjectState {
+  projects: Project[]
+  currentProject: Project | null
+  currentStats: ProjectStats | null
+  loading: boolean
+  error: string | null
+
+  fetchProjects: (userId: string) => Promise<void>
+  fetchProject: (id: string) => Promise<void>
+  createProject: (data: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>) => Promise<string>
+  updateProject: (id: string, data: Partial<Project>) => Promise<void>
+  deleteProject: (id: string) => Promise<void>
+  setCurrentProject: (project: Project | null) => void
+  setCurrentStats: (stats: ProjectStats) => void
+  clearError: () => void
+}
+
+export const useProjectStore = create<ProjectState>((set, get) => ({
+  projects: [],
+  currentProject: null,
+  currentStats: null,
+  loading: false,
+  error: null,
+
+  fetchProjects: async (userId) => {
+    set({ loading: true, error: null })
+    try {
+      const projects = await getCollection<Project>(Collections.PROJECTS, [
+        where('ownerId', '==', userId),
+        orderBy('createdAt', 'desc'),
+      ])
+      set({ projects })
+    } catch (err) {
+      set({ error: 'Failed to load projects' })
+    } finally {
+      set({ loading: false })
+    }
+  },
+
+  fetchProject: async (id) => {
+    set({ loading: true, error: null })
+    try {
+      const project = await getDocument<Project>(Collections.PROJECTS, id)
+      set({ currentProject: project })
+    } catch (err) {
+      set({ error: 'Failed to load project' })
+    } finally {
+      set({ loading: false })
+    }
+  },
+
+  createProject: async (data) => {
+    set({ loading: true, error: null })
+    try {
+      const id = await createDocument(Collections.PROJECTS, data)
+      await get().fetchProjects(data.ownerId)
+      return id
+    } catch (err) {
+      set({ error: 'Failed to create project' })
+      throw err
+    } finally {
+      set({ loading: false })
+    }
+  },
+
+  updateProject: async (id, data) => {
+    set({ loading: true, error: null })
+    try {
+      await updateDocument(Collections.PROJECTS, id, data)
+      const updated = await getDocument<Project>(Collections.PROJECTS, id)
+      set({ currentProject: updated })
+    } catch (err) {
+      set({ error: 'Failed to update project' })
+    } finally {
+      set({ loading: false })
+    }
+  },
+
+  deleteProject: async (id) => {
+    set({ loading: true, error: null })
+    try {
+      await deleteDocument(Collections.PROJECTS, id)
+      set((s) => ({ projects: s.projects.filter((p) => p.id !== id) }))
+    } catch (err) {
+      set({ error: 'Failed to delete project' })
+    } finally {
+      set({ loading: false })
+    }
+  },
+
+  setCurrentProject: (project) => set({ currentProject: project }),
+  setCurrentStats: (stats) => set({ currentStats: stats }),
+  clearError: () => set({ error: null }),
+}))
