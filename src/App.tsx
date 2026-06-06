@@ -7,12 +7,11 @@ import DashboardPage from '@/pages/DashboardPage'
 import ProjectsPage from '@/pages/ProjectsPage'
 import ReportsPage from '@/pages/ReportsPage'
 import TemplatesPage from '@/pages/TemplatesPage'
-import ExportsPage from '@/pages/ExportsPage'           // ← UPDATED
-import { PackagesPage } from '@/pages/PlaceholderPages' // Packages still Phase 4
+import PackagesPage from '@/pages/PackagesPage'   // ← real page
+import ExportsPage from '@/pages/ExportsPage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, initialized } = useAuthStore()
-
   if (!initialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -23,31 +22,19 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
       </div>
     )
   }
-
   if (!user) return <Navigate to="/login" replace />
   return <>{children}</>
 }
 
 export default function App() {
   const init = useAuthStore((s) => s.init)
-
-  useEffect(() => {
-    const unsubscribe = init()
-    return unsubscribe
-  }, [init])
+  useEffect(() => { const u = init(); return u }, [init])
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <AppLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="/" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard"  element={<DashboardPage />} />
           <Route path="projects"   element={<ProjectsPage />} />
