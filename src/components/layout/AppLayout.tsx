@@ -1,14 +1,8 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import {
-  LayoutDashboard,
-  FolderOpen,
-  FileText,
-  LayoutTemplate,
-  Package,
-  Download,
-  LogOut,
-  Building2,
-  ChevronRight,
+  LayoutDashboard, FolderOpen, FileText,
+  LayoutTemplate, Package, Download,
+  LogOut, Building2, ChevronRight, Zap,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useProjectStore } from '@/store/useProjectStore'
@@ -20,6 +14,7 @@ const navItems = [
   { to: '/templates',  label: 'Templates',  icon: LayoutTemplate },
   { to: '/packages',   label: 'Packages',   icon: Package },
   { to: '/exports',    label: 'Exports',    icon: Download },
+  { to: '/bridge',     label: 'Ecosystem',  icon: Zap },  // ← Phase 5
 ]
 
 export default function AppLayout() {
@@ -64,13 +59,18 @@ export default function AppLayout() {
             <NavLink
               key={to}
               to={to}
-              className={({ isActive }) =>
-                `nav-link ${isActive ? 'active' : ''}`
-              }
+              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             >
               <Icon size={16} />
               <span className="flex-1">{label}</span>
-              <ChevronRight size={12} className="opacity-30" />
+              {/* Special badge for Bridge */}
+              {to === '/bridge' ? (
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-600">
+                  AUTO
+                </span>
+              ) : (
+                <ChevronRight size={12} className="opacity-30" />
+              )}
             </NavLink>
           ))}
         </nav>

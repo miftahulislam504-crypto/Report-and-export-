@@ -7,11 +7,13 @@ import DashboardPage from '@/pages/DashboardPage'
 import ProjectsPage from '@/pages/ProjectsPage'
 import ReportsPage from '@/pages/ReportsPage'
 import TemplatesPage from '@/pages/TemplatesPage'
-import PackagesPage from '@/pages/PackagesPage'   // ← real page
+import PackagesPage from '@/pages/PackagesPage'
 import ExportsPage from '@/pages/ExportsPage'
+import BridgePage from '@/pages/BridgePage'       // ← Phase 5
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, initialized } = useAuthStore()
+
   if (!initialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -22,19 +24,31 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
       </div>
     )
   }
+
   if (!user) return <Navigate to="/login" replace />
   return <>{children}</>
 }
 
 export default function App() {
   const init = useAuthStore((s) => s.init)
-  useEffect(() => { const u = init(); return u }, [init])
+
+  useEffect(() => {
+    const unsubscribe = init()
+    return unsubscribe
+  }, [init])
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard"  element={<DashboardPage />} />
           <Route path="projects"   element={<ProjectsPage />} />
@@ -42,6 +56,7 @@ export default function App() {
           <Route path="templates"  element={<TemplatesPage />} />
           <Route path="packages"   element={<PackagesPage />} />
           <Route path="exports"    element={<ExportsPage />} />
+          <Route path="bridge"     element={<BridgePage />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
