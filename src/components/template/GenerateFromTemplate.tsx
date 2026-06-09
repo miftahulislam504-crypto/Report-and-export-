@@ -30,7 +30,7 @@ export default function GenerateFromTemplate({ template, onClose, onSuccess }: G
     if (!currentProject) return
     const prefill: Record<string, string> = {}
     template.variables.forEach((v) => {
-      const proj = currentProject as Record<string, unknown>
+      const proj = currentProject as unknown as Record<string, unknown>
       if (v.source === 'project' && proj[v.key] !== undefined) {
         prefill[v.key] = String(proj[v.key])
       }
@@ -53,7 +53,7 @@ export default function GenerateFromTemplate({ template, onClose, onSuccess }: G
     try {
       setPreviewError('')
       const data = buildData()
-      const result = compileTemplate(template.content, data as never)
+      const result = compileTemplate(template.content, data as unknown as import('@/templates/engine').TemplateData)
       setPreview(result)
       setStep('preview')
     } catch (e) {
@@ -66,7 +66,7 @@ export default function GenerateFromTemplate({ template, onClose, onSuccess }: G
     setGenerating(true)
     try {
       const data = buildData()
-      const compiled = compileTemplate(template.content, data as never)
+      const compiled = compileTemplate(template.content, data as unknown as import('@/templates/engine').TemplateData)
       const id = await createReport({
         projectId: currentProject.id,
         type: template.type,

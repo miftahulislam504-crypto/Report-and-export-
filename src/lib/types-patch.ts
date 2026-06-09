@@ -1,5 +1,8 @@
-// Add ownerId to ReportTemplate — paste this into src/lib/types.ts
-// replacing the existing ReportTemplate interface
+// types-patch.ts — Re-exports updated ReportTemplate with ownerId field.
+// The base types (BaseDocument, ReportType, TemplateVariable) live in types.ts.
+// This file just augments the interface by re-exporting a patched version.
+
+import type { BaseDocument, ReportType, TemplateVariable } from './types'
 
 export interface ReportTemplate extends BaseDocument {
   name: string
@@ -8,5 +11,5 @@ export interface ReportTemplate extends BaseDocument {
   content: string           // Handlebars template string
   variables: TemplateVariable[]
   isDefault: boolean
-  ownerId: string           // ← NEW
+  ownerId: string           // ← NEW (added via patch)
 }

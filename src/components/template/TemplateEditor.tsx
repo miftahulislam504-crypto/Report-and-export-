@@ -55,7 +55,7 @@ export default function TemplateEditor({ template, onSave, onClose }: TemplateEd
   const getPreview = (): string => {
     try {
       setPreviewError('')
-      return compileTemplate(content, previewData as never)
+      return compileTemplate(content, previewData as unknown as import('@/templates/engine').TemplateData)
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Preview error'
       setPreviewError(msg)

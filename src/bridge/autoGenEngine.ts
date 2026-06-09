@@ -123,7 +123,7 @@ export function autoGenerateReports(
   if (structTpl) {
     if (hasData(ecosystem, 'structural')) {
       try {
-        const content = compileTemplate(structTpl.content, vars as never)
+        const content = compileTemplate(structTpl.content, vars as unknown as import('@/templates/engine').TemplateData)
         results.push({
           reportType: 'structural',
           title: 'Structural Engineering Report',
@@ -144,7 +144,7 @@ export function autoGenerateReports(
   if (dbTpl) {
     if (hasData(ecosystem, 'structural', 'architectural')) {
       try {
-        const content = compileTemplate(dbTpl.content, vars as never)
+        const content = compileTemplate(dbTpl.content, vars as unknown as import('@/templates/engine').TemplateData)
         results.push({ reportType: 'design-basis', title: 'Design Basis Report', status: 'success', content, dataUsed: ['structural', 'architectural'] })
       } catch (e) {
         results.push({ reportType: 'design-basis', title: 'Design Basis Report', status: 'error', reason: String(e), dataUsed: [] })
@@ -159,7 +159,7 @@ export function autoGenerateReports(
   if (boqTpl) {
     if (hasData(ecosystem, 'estimate')) {
       try {
-        const content = compileTemplate(boqTpl.content, vars as never)
+        const content = compileTemplate(boqTpl.content, vars as unknown as import('@/templates/engine').TemplateData)
         results.push({ reportType: 'boq', title: 'Bill of Quantities', status: 'success', content, dataUsed: ['estimate'] })
       } catch (e) {
         results.push({ reportType: 'boq', title: 'BOQ Report', status: 'error', reason: String(e), dataUsed: [] })
@@ -173,7 +173,7 @@ export function autoGenerateReports(
   const costTpl = templates.find((t) => t.type === 'cost')
   if (costTpl && hasData(ecosystem, 'estimate')) {
     try {
-      const content = compileTemplate(costTpl.content, vars as never)
+      const content = compileTemplate(costTpl.content, vars as unknown as import('@/templates/engine').TemplateData)
       results.push({ reportType: 'cost', title: 'Project Cost Report', status: 'success', content, dataUsed: ['estimate'] })
     } catch (e) {
       results.push({ reportType: 'cost', title: 'Cost Report', status: 'error', reason: String(e), dataUsed: [] })
@@ -184,7 +184,7 @@ export function autoGenerateReports(
   const progTpl = templates.find((t) => t.type === 'progress')
   if (progTpl && hasData(ecosystem, 'projectManagement')) {
     try {
-      const content = compileTemplate(progTpl.content, vars as never)
+      const content = compileTemplate(progTpl.content, vars as unknown as import('@/templates/engine').TemplateData)
       results.push({ reportType: 'progress', title: 'Monthly Progress Report', status: 'success', content, dataUsed: ['project-management'] })
     } catch (e) {
       results.push({ reportType: 'progress', title: 'Progress Report', status: 'error', reason: String(e), dataUsed: [] })
@@ -195,7 +195,7 @@ export function autoGenerateReports(
   const bnbcTpl = templates.find((t) => t.type === 'compliance')
   if (bnbcTpl && hasData(ecosystem, 'structural', 'architectural')) {
     try {
-      const content = compileTemplate(bnbcTpl.content, vars as never)
+      const content = compileTemplate(bnbcTpl.content, vars as unknown as import('@/templates/engine').TemplateData)
       results.push({ reportType: 'compliance', title: 'BNBC Compliance Report', status: 'success', content, dataUsed: ['structural', 'architectural'] })
     } catch (e) {
       results.push({ reportType: 'compliance', title: 'BNBC Compliance', status: 'error', reason: String(e), dataUsed: [] })
@@ -213,7 +213,7 @@ export function autoGenerateReports(
 
     if (available.length > 0) {
       try {
-        const content = compileTemplate(clientTpl.content, vars as never)
+        const content = compileTemplate(clientTpl.content, vars as unknown as import('@/templates/engine').TemplateData)
         results.push({ reportType: 'client-summary', title: 'Client Summary Report', status: 'success', content, dataUsed: available })
       } catch (e) {
         results.push({ reportType: 'client-summary', title: 'Client Summary', status: 'error', reason: String(e), dataUsed: [] })

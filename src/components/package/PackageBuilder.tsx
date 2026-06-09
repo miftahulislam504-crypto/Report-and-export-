@@ -126,7 +126,7 @@ export default function PackageBuilder({ pkg, onClose, onSaved }: PackageBuilder
       )
 
       // Trigger download
-      const blob = new Blob([packageBytes], { type: 'application/pdf' })
+      const blob = new Blob([packageBytes as BlobPart], { type: 'application/pdf' })
       const url  = URL.createObjectURL(blob)
       const a    = document.createElement('a')
       a.href = url

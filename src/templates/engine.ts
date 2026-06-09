@@ -19,7 +19,8 @@ Handlebars.registerHelper('formatNumber', (val: number) =>
 Handlebars.registerHelper('upper', (val: string) => (val ?? '').toUpperCase())
 Handlebars.registerHelper('lower', (val: string) => (val ?? '').toLowerCase())
 
-Handlebars.registerHelper('ifEqual', function (a, b, options) {
+// FIX: explicit `this: unknown` annotation to satisfy strict mode
+Handlebars.registerHelper('ifEqual', function (this: unknown, a: unknown, b: unknown, options: Handlebars.HelperOptions) {
   return a === b ? options.fn(this) : options.inverse(this)
 })
 

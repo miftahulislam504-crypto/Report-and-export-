@@ -151,7 +151,7 @@ export function generateBOQPDF(
   )
 
   // Summary box
-  doc.setFillColor(12, 29, 94, 0.05 as never)
+  doc.setFillColor(12, 29, 94, 0.05 as unknown as number)
   doc.setDrawColor(...COLORS.navy)
   doc.setLineWidth(0.4)
   doc.roundedRect(14, y, W - 28, 16, 2, 2, 'FD')
@@ -225,7 +225,7 @@ export function generateBOQPDF(
       },
     })
 
-    y = (doc as never).lastAutoTable.finalY + 8
+    y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8
   })
 
   // Grand total row
@@ -331,7 +331,7 @@ export function generateCostPDF(
     startY: y,
     margin: { left: 14, right: 14 },
     head: [['#', 'Description', 'Amount (BDT)', '% of Total']],
-    body: tableBody as never,
+    body: tableBody as unknown as import('jspdf-autotable').RowInput[],
     headStyles: { fillColor: COLORS.slate, textColor: COLORS.white, fontSize: 8, fontStyle: 'bold' },
     bodyStyles: { fontSize: 8, textColor: COLORS.text },
     columnStyles: {
