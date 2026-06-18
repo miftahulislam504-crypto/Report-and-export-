@@ -30,16 +30,29 @@ export default function ProjectsPage() {
   }, [user])
 
   const filtered = projects.filter(
-    (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.projectNumber.toLowerCase().includes(search.toLowerCase()) ||
-      p.client.toLowerCase().includes(search.toLowerCase())
+    (p) => {
+      const q = search.toLowerCase()
+      // Support both Hub field names (projectName, clientName) and legacy aliases (name, client)
+      return (
+        (p.projectName ?? p.name ?? '').toLowerCase().includes(q) ||
+        (p.projectCode ?? p.projectNumber ?? '').toLowerCase().includes(q) ||
+        (p.clientName ?? p.client ?? '').toLowerCase().includes(q)
+      )
+    }
   )
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user) return
-    await createProject({ ...form, ownerId: user.uid })
+    // Write Hub-compatible fields so Hub also sees the project
+    await createProject({
+      ...form,
+      projectName: form.name,       // Hub uses projectName
+      clientName:  form.client,     // Hub uses clientName
+      projectCode: form.projectNumber,
+      createdBy:   user.uid,        // Hub uses createdBy
+      ownerId:     user.uid,        // keep for backward compat
+    })
     setShowForm(false)
     setForm({ name: '', projectNumber: '', client: '', location: '', buildingType: 'residential', status: 'active', authority: 'RAJUK', floors: 5, area: 500, engineer: '' })
   }

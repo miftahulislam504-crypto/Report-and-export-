@@ -9,19 +9,29 @@ export interface BaseDocument {
 }
 
 // ─── Project ──────────────────────────────────────────────────────
-
+// Matches Hub's projects collection fields
 export interface Project extends BaseDocument {
-  name: string
-  projectNumber: string
-  client: string
-  location: string
-  buildingType: BuildingType
-  status: ProjectStatus
-  floors: number
-  area: number // sqm
-  authority: Authority
-  engineer: string
-  ownerId: string
+  // Hub fields (primary)
+  projectName:  string    // Hub uses projectName
+  projectCode:  string
+  clientName:   string    // Hub uses clientName
+  location:     string
+  description?: string
+  status:       ProjectStatus
+  startDate:    any       // Firestore Timestamp
+  endDate?:     any       // Firestore Timestamp
+  createdBy:    string    // Hub uses createdBy (not ownerId)
+
+  // Report-app extras (optional, coexist with Hub fields)
+  name?:          string  // alias — mapped from projectName for backward compat
+  projectNumber?: string
+  client?:        string  // alias — mapped from clientName
+  buildingType?:  BuildingType
+  floors?:        number
+  area?:          number  // sqm
+  authority?:     Authority
+  engineer?:      string
+  ownerId?:       string  // alias — mapped from createdBy for backward compat
 }
 
 export type BuildingType =

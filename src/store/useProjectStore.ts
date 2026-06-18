@@ -42,7 +42,7 @@ export const useProjectStore = create<ProjectState>()(
         set({ loading: true, error: null })
         try {
           const projects = await getCollection<Project>(Collections.PROJECTS, [
-            where('ownerId', '==', userId),
+            where('createdBy', '==', userId),
             orderBy('createdAt', 'desc'),
           ])
           set((s) => {
@@ -79,7 +79,7 @@ export const useProjectStore = create<ProjectState>()(
         try {
           const id = await createDocument(Collections.PROJECTS, data)
           // Fetch updated list
-          await get().fetchProjects(data.ownerId)
+          await get().fetchProjects(data.createdBy ?? data.ownerId)
           // Auto-select the newly created project
           const newProject = await getDocument<Project>(Collections.PROJECTS, id)
           if (newProject) set({ currentProject: newProject })
