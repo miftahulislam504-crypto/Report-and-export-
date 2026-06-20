@@ -1,18 +1,25 @@
+/* ── CivilOS Unified Design System — Light Clean ──
+   Fonts loaded via @import so this file alone carries the brand
+   typography (no index.html edit needed). Inter is used everywhere,
+   including headings — see fontFamily.display in tailwind.config.ts. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Google Fonts already loaded via index.html ── */
-
 @layer base {
   :root {
-    --color-bg: #f8fafc;
-    --color-surface: #ffffff;
-    --color-border: #e2e8f0;
-    --color-text: #0f172a;
-    --color-muted: #64748b;
-    --color-primary: #1d4ed8;
-    --color-primary-dark: #1535a0;
+    --color-bg: #f9fafb;       /* Surface 2 */
+    --color-surface: #ffffff;  /* Surface */
+    --color-border: #e5e7eb;   /* Border */
+    --color-text: #111827;     /* Text primary */
+    --color-muted: #6b7280;    /* Text muted */
+    --color-primary: #1a56db;  /* Primary */
+    --color-primary-dark: #1e429f; /* Primary dark */
+    --color-success: #059669;
+    --color-warning: #d97706;
+    --color-error: #dc2626;
     --nav-width: 240px;
   }
 
@@ -21,7 +28,7 @@
   }
 
   html {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     background-color: var(--color-bg);
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
@@ -34,7 +41,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
@@ -174,11 +181,11 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d1d5db;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #9ca3af;
 }
 
 /* ── Animations ── */

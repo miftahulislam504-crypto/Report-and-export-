@@ -58,7 +58,7 @@ export default function PackagesPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('এই package delete করবেন?')) return
+    if (!confirm('Delete this package?')) return
     await deletePackage(id)
   }
 

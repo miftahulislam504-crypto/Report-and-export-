@@ -408,7 +408,7 @@ NOTE: Rates based on Dhaka market — {{reportYear}}
   {
     name: 'Client Summary Report',
     type: 'client-summary',
-    description: 'Executive summary for client presentation (Bengali/English)',
+    description: 'Executive summary for client presentation',
     isDefault: true,
     variables: [
       { key: 'totalCost',          label: 'Total Cost',         source: 'estimate', type: 'number' },
@@ -417,39 +417,39 @@ NOTE: Rates based on Dhaka market — {{reportYear}}
     ],
     content: `CLIENT SUMMARY REPORT
 ======================
-প্রকল্প সারসংক্ষেপ / Project Summary
+Project Summary
 
-প্রকল্পের নাম / Project : {{projectName}}
-রেফারেন্স / Ref No      : {{projectNumber}}
-ক্লায়েন্ট / Client     : {{client}}
-অবস্থান / Location      : {{location}}
-তারিখ / Date            : {{reportDate}}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-প্রকল্পের তথ্য / PROJECT INFORMATION
-  ভবনের ধরন     : {{buildingType}}
-  কর্তৃপক্ষ    : {{upper authority}}
-  মেঝের সংখ্যা  : {{floors}}টি
-  মোট আয়তন     : {{formatNumber area}} m²
-
-নির্মাণ খরচ / CONSTRUCTION COST
-  মোট আনুমানিক ব্যয় : {{formatCurrency (default totalCost 0)}}
-  প্রতি বর্গমিটার   : {{formatCurrency (default costPerSqm 0)}}
-
-নির্মাণ অগ্রগতি / CONSTRUCTION PROGRESS
-  সম্পন্ন           : {{default completionPercent 0}}%
-  বর্তমান পর্যায়   : {{default currentPhase "পরিকল্পনা"}}
-  সমাপ্তির সময়    : {{default expectedCompletion "নির্ধারিত হয়নি"}}
-
-কাঠামোগত বৈশিষ্ট্য / STRUCTURAL SPECS
-  কংক্রিট গ্রেড : {{default concreteGrade "f'c = 25 MPa"}}
-  ইস্পাত গ্রেড  : {{default steelGrade "Grade 60"}}
-  ভিত্তির ধরন   : {{default foundationType "আইসোলেটেড ফুটিং"}}
+Project Name       : {{projectName}}
+Reference / Ref No : {{projectNumber}}
+Client             : {{client}}
+Location           : {{location}}
+Date               : {{reportDate}}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-প্রকৌশলী / Engineer: {{engineer}}
-তারিখ / Date: {{reportDate}}
+
+PROJECT INFORMATION
+  Building Type    : {{buildingType}}
+  Authority        : {{upper authority}}
+  Number of Floors : {{floors}}
+  Total Area       : {{formatNumber area}} m²
+
+CONSTRUCTION COST
+  Total Estimated Cost : {{formatCurrency (default totalCost 0)}}
+  Cost per Sqm         : {{formatCurrency (default costPerSqm 0)}}
+
+CONSTRUCTION PROGRESS
+  Completed           : {{default completionPercent 0}}%
+  Current Phase       : {{default currentPhase "Planning"}}
+  Expected Completion : {{default expectedCompletion "Not Determined"}}
+
+STRUCTURAL SPECS
+  Concrete Grade  : {{default concreteGrade "f'c = 25 MPa"}}
+  Steel Grade     : {{default steelGrade "Grade 60"}}
+  Foundation Type : {{default foundationType "Isolated Footing"}}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Engineer: {{engineer}}
+Date: {{reportDate}}
 `,
   },
 ]

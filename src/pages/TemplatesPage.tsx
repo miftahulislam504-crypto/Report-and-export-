@@ -74,7 +74,7 @@ export default function TemplatesPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('এই template delete করবেন?')) return
+    if (!confirm('Delete this template?')) return
     await deleteTemplate(id)
   }
 
